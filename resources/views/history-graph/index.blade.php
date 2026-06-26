@@ -65,6 +65,11 @@
         .graph-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); margin: 0; pointer-events: none; }
         .graph-empty[hidden] { display: none; }
         .graph-fallback { margin-top: 1rem; color: var(--muted); }
+        @media (max-width: 580px) {
+            .graph-toolbar { flex-direction: column; align-items: flex-start; }
+            #historyGraph { height: clamp(340px, 64vh, 520px); }
+            .graph-legend { gap: .6rem 1rem; }
+        }
     </style>
 
     <script>

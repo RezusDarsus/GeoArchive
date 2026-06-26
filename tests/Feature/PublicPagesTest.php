@@ -20,9 +20,11 @@ class PublicPagesTest extends TestCase
 
         $this->get('/')->assertOk()->assertSee('GeoArchive')->assertSee('Alaverdi Cathedral');
         $this->get('/artifacts')->assertOk()->assertSee('Vani Bronze Figurine');
-        $this->get('/artifacts/1')->assertOk()->assertSee('Colchis');
+        $coin = Artifact::where('title', 'Vani Colchis Coin')->firstOrFail();
+        $this->get(route('artifacts.show', $coin))->assertOk()->assertSee('Colchis');
         $this->get('/events')->assertOk()->assertSee('Battle of Didgori');
-        $this->get('/events/1')
+        $colchis = HistoricalEvent::where('title', 'Colchis in Western Georgia')->firstOrFail();
+        $this->get(route('events.show', $colchis))
             ->assertOk()
             ->assertSee('Colchis in Western Georgia')
             ->assertSee('advanced bronze and iron working')
