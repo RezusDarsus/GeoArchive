@@ -1,0 +1,5 @@
+<div class="field"><label for="name">Name *</label><input id="name" name="name" value="{{ old('name', $category->name ?? '') }}" maxlength="255" required></div>
+<div class="field"><label for="description">Description</label><textarea id="description" name="description" rows="6">{{ old('description', $category->description ?? '') }}</textarea></div>
+<div class="field"><label for="image">Representative image</label><input id="image" type="file" name="image" accept="image/*"><small>Maximum 2 MB. Uploading a new image replaces the current one.</small></div>
+@isset($category) @if($category->image)<img class="form-preview" src="{{ asset('storage/' . $category->image) }}" alt="Current {{ $category->name }} image"><label class="check"><input type="checkbox" name="remove_image" value="1" @checked(old('remove_image'))> Remove current image</label>@endif @endisset
+<div class="actions"><button class="button" type="submit">{{ $submitLabel }}</button><a class="button secondary" href="{{ route('admin.categories.index') }}">Cancel</a></div>

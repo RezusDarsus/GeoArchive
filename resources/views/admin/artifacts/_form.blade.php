@@ -1,0 +1,12 @@
+<div class="field"><label for="title">Title *</label><input id="title" name="title" value="{{ old('title', $artifact->title ?? '') }}" maxlength="255" required></div>
+<div class="field"><label for="description">Description *</label><textarea id="description" name="description" rows="8" required>{{ old('description', $artifact->description ?? '') }}</textarea></div>
+<div class="form-grid">
+    <div class="field"><label for="period">Period</label><input id="period" name="period" value="{{ old('period', $artifact->period ?? '') }}" maxlength="255"></div>
+    <div class="field"><label for="location">Location</label><input id="location" name="location" value="{{ old('location', $artifact->location ?? '') }}" maxlength="255"></div>
+</div>
+<div class="field"><label for="category_id">Category *</label><select id="category_id" name="category_id" required><option value="">Select a category</option>@foreach($categories as $category)<option value="{{ $category->id }}" @selected(old('category_id', $artifact->category_id ?? '') == $category->id)>{{ $category->name }}</option>@endforeach</select></div>
+<fieldset><legend>Tags</legend><div class="checkbox-grid">@foreach($tags as $tag)<label class="check"><input type="checkbox" name="tags[]" value="{{ $tag->id }}" @checked(in_array($tag->id, old('tags', isset($artifact) ? $artifact->tags->pluck('id')->all() : [])))> {{ $tag->name }}</label>@endforeach</div></fieldset>
+<fieldset><legend>Connected historical events</legend><div class="checkbox-grid">@foreach($events as $event)<label class="check"><input type="checkbox" name="events[]" value="{{ $event->id }}" @checked(in_array($event->id, old('events', isset($artifact) ? $artifact->historicalEvents->pluck('id')->all() : [])))> {{ $event->title }}</label>@endforeach</div></fieldset>
+<div class="field"><label for="image">Image</label><input id="image" type="file" name="image" accept="image/*"><small>Maximum 2 MB. Uploading a new image replaces the current one.</small></div>
+@isset($artifact) @if($artifact->image)<img class="form-preview" src="{{ asset('storage/' . $artifact->image) }}" alt="Current artifact image"><label class="check"><input type="checkbox" name="remove_image" value="1" @checked(old('remove_image'))> Remove current image</label>@endif @endisset
+<div class="actions"><button class="button" type="submit">{{ $submitLabel }}</button><a class="button secondary" href="{{ route('admin.artifacts.index') }}">Cancel</a></div>

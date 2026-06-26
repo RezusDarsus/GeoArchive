@@ -1,0 +1,824 @@
+Build a full Laravel CRUD final project called:
+
+# GeoArchive — Georgian Historical Artifact and Event Management System
+
+## Main Goal
+
+Create a PHP Laravel web application that demonstrates all required course concepts:
+
+* MVC Architecture
+* Database migrations
+* Eloquent ORM
+* One-to-One relationship
+* One-to-Many relationship
+* Many-to-Many relationship
+* Full CRUD operations
+* Blade templating engine
+* Authentication
+* Middleware
+* Form validation
+* CSRF protection
+* File uploads
+
+Use only Laravel, PHP, Blade, HTML/CSS, and standard Laravel features. Do not build API-only. Do not use React/Vue. The project must be server-rendered with Blade.
+
+---
+
+# 1. Project Theme
+
+The project is a Georgian history archive system.
+
+Users can view Georgian historical artifacts, historical events, categories, and tags.
+
+Admins can create, edit, update, and delete data.
+
+Example artifacts:
+
+* Georgian manuscript
+* Colchis coin
+* Svan tower
+* King Tamar period item
+* Medieval weapon
+* Church icon
+* Archaeological object
+
+Example historical events:
+
+* Battle of Didgori
+* Golden Age of Georgia
+* King Tamar period
+* Russian annexation
+* First Democratic Republic of Georgia
+
+---
+
+# 2. Required Roles
+
+Use authentication.
+
+There must be two role types:
+
+## Admin
+
+Admin can:
+
+* Manage artifacts
+* Manage categories
+* Manage historical events
+* Manage tags
+* Delete records
+* Upload images
+
+## Regular User
+
+Regular user can:
+
+* View artifacts
+* View historical events
+* View categories
+* View artifact details
+* Edit own profile
+
+Regular user must not access admin create/edit/delete pages.
+
+Use middleware to protect admin routes.
+
+---
+
+# 3. Database Tables and Relationships
+
+Create migrations, models, controllers, routes, views, validation, and relationships.
+
+## users table
+
+Use Laravel default users table.
+
+Add a `role` column:
+
+```text
+role enum/string default user
+possible values: admin, user
+```
+
+---
+
+## profiles table
+
+This demonstrates One-to-One relationship.
+
+Fields:
+
+```text
+id
+user_id foreign key
+bio nullable text
+avatar nullable string
+created_at
+updated_at
+```
+
+Relationships:
+
+```php
+User hasOne Profile
+Profile belongsTo User
+```
+
+Users can edit their own profile and upload avatar image.
+
+---
+
+## categories table
+
+Fields:
+
+```text
+id
+name string unique
+description nullable text
+created_at
+updated_at
+```
+
+Relationship:
+
+```php
+Category hasMany Artifacts
+Artifact belongsTo Category
+```
+
+---
+
+## artifacts table
+
+Fields:
+
+```text
+id
+title string
+description text
+period string nullable
+location string nullable
+image nullable string
+user_id foreign key
+category_id foreign key
+created_at
+updated_at
+```
+
+Relationships:
+
+```php
+Artifact belongsTo User
+Artifact belongsTo Category
+Artifact belongsToMany Tag
+```
+
+This table demonstrates One-to-Many:
+
+```php
+User hasMany Artifacts
+Category hasMany Artifacts
+```
+
+---
+
+## tags table
+
+Fields:
+
+```text
+id
+name string unique
+created_at
+updated_at
+```
+
+---
+
+## artifact_tag pivot table
+
+This demonstrates Many-to-Many relationship.
+
+Fields:
+
+```text
+id
+artifact_id foreign key
+tag_id foreign key
+created_at
+updated_at
+```
+
+Relationships:
+
+```php
+Artifact belongsToMany Tag
+Tag belongsToMany Artifact
+```
+
+---
+
+## historical_events table
+
+Fields:
+
+```text
+id
+title string
+description text
+date_or_period string nullable
+location string nullable
+image nullable string
+created_at
+updated_at
+```
+
+Admin can CRUD historical events.
+
+Users can only view them.
+
+---
+
+# 4. Required Controllers
+
+Create these controllers:
+
+```text
+ArtifactController
+CategoryController
+HistoricalEventController
+TagController
+ProfileController
+AdminDashboardController
+AuthController if manual auth is used
+```
+
+Use resource controllers where possible.
+
+---
+
+# 5. Required Routes
+
+Create public/user routes:
+
+```php
+GET /                       home page
+GET /artifacts              artifact list
+GET /artifacts/{artifact}   artifact details
+GET /events                 historical event list
+GET /events/{event}         historical event details
+GET /profile/edit           edit own profile, auth required
+PUT /profile                update own profile, auth required
+```
+
+Create admin routes protected by auth and admin middleware:
+
+```php
+GET /admin/dashboard
+
+Resource CRUD:
+admin/artifacts
+admin/categories
+admin/events
+admin/tags
+```
+
+Regular users must not access admin routes.
+
+---
+
+# 6. Blade Views Required
+
+Create Blade layout:
+
+```text
+resources/views/layouts/app.blade.php
+```
+
+Include navbar with:
+
+* Home
+* Artifacts
+* Events
+* Login/Register or Logout
+* Admin Dashboard only if user is admin
+* Profile only if logged in
+
+Use Blade directives:
+
+```blade
+@auth
+@guest
+@if
+@foreach
+@csrf
+@method
+```
+
+Create views:
+
+```text
+home.blade.php
+
+artifacts/index.blade.php
+artifacts/show.blade.php
+
+events/index.blade.php
+events/show.blade.php
+
+profile/edit.blade.php
+
+admin/dashboard.blade.php
+
+admin/artifacts/index.blade.php
+admin/artifacts/create.blade.php
+admin/artifacts/edit.blade.php
+admin/artifacts/show.blade.php
+
+admin/categories/index.blade.php
+admin/categories/create.blade.php
+admin/categories/edit.blade.php
+
+admin/events/index.blade.php
+admin/events/create.blade.php
+admin/events/edit.blade.php
+admin/events/show.blade.php
+
+admin/tags/index.blade.php
+admin/tags/create.blade.php
+admin/tags/edit.blade.php
+```
+
+---
+
+# 7. CRUD Requirements
+
+Implement full CRUD for:
+
+## Artifacts
+
+Admin can:
+
+* Create artifact
+* View artifact
+* Edit artifact
+* Update artifact
+* Delete artifact
+* Upload artifact image
+* Assign category
+* Assign multiple tags
+
+## Categories
+
+Admin can:
+
+* Create category
+* View categories
+* Edit category
+* Delete category
+
+Prevent deleting category if artifacts exist, or handle safely.
+
+## Tags
+
+Admin can:
+
+* Create tag
+* View tags
+* Edit tag
+* Delete tag
+
+## Historical Events
+
+Admin can:
+
+* Create event
+* View event
+* Edit event
+* Delete event
+* Upload event image
+
+## Profile
+
+Authenticated user can:
+
+* Update bio
+* Upload avatar
+
+---
+
+# 8. Validation Rules
+
+Use Laravel validation in controller methods.
+
+Examples:
+
+## Artifact validation
+
+```php
+title required max 255
+description required
+period nullable max 255
+location nullable max 255
+category_id required exists categories,id
+image nullable image max 2048
+tags nullable array
+tags.* exists tags,id
+```
+
+## Category validation
+
+```php
+name required unique max 255
+description nullable
+```
+
+## Tag validation
+
+```php
+name required unique max 255
+```
+
+## Event validation
+
+```php
+title required max 255
+description required
+date_or_period nullable max 255
+location nullable max 255
+image nullable image max 2048
+```
+
+## Profile validation
+
+```php
+bio nullable max 1000
+avatar nullable image max 2048
+```
+
+Show validation errors in Blade.
+
+---
+
+# 9. File Upload Requirements
+
+Store uploaded images in:
+
+```text
+storage/app/public/artifacts
+storage/app/public/events
+storage/app/public/avatars
+```
+
+Use:
+
+```bash
+php artisan storage:link
+```
+
+When updating an image, delete the old image if it exists.
+
+When deleting an artifact/event/profile avatar, delete the related file if it exists.
+
+Display images using:
+
+```blade
+<img src="{{ asset('storage/' . $artifact->image) }}">
+```
+
+---
+
+# 10. Authentication
+
+Implement Laravel authentication.
+
+Acceptable option:
+
+* Use Laravel Breeze with Blade only
+
+or
+
+* Implement simple custom Laravel auth manually with login/register/logout controllers.
+
+Do not use API authentication.
+
+After login:
+
+* If admin, redirect to `/admin/dashboard`
+* If normal user, redirect to `/`
+
+Seed one admin account:
+
+```text
+email: admin@geoarchive.test
+password: password
+role: admin
+```
+
+Seed one normal user:
+
+```text
+email: user@geoarchive.test
+password: password
+role: user
+```
+
+---
+
+# 11. Middleware
+
+Create admin middleware.
+
+Example behavior:
+
+```php
+if user is not logged in -> redirect login
+if user role is not admin -> abort 403
+```
+
+Register middleware and use it for admin routes.
+
+---
+
+# 12. Seeders
+
+Create seeders for demo data.
+
+Seed:
+
+## Categories
+
+```text
+Manuscript
+Coin
+Church
+Weapon
+Archaeological Object
+Architecture
+Painting
+```
+
+## Tags
+
+```text
+Medieval
+Colchis
+Imereti
+King Tamar
+Religion
+War
+Culture
+Golden Age
+```
+
+## Historical Events
+
+At least 5 records.
+
+## Artifacts
+
+At least 8 records.
+
+Each artifact should have:
+
+* title
+* description
+* period
+* location
+* category
+* user/admin owner
+* tags
+
+Images can be optional in seeders.
+
+---
+
+# 13. UI Requirements
+
+Use clean simple Blade design.
+
+The project does not need to be beautiful, but it must be readable.
+
+Every page should have:
+
+* Navbar
+* Main content area
+* Flash success/error messages
+* Validation error display
+* Tables for admin lists
+* Cards/grid for public artifact list
+* Detail pages for artifact/event
+
+No complex frontend framework.
+
+---
+
+# 14. Home Page
+
+Home page should show:
+
+* Project title: GeoArchive
+* Short description
+* Latest 3 artifacts
+* Latest 3 historical events
+* Link to artifacts page
+* Link to events page
+
+---
+
+# 15. Admin Dashboard
+
+Admin dashboard should show simple counts:
+
+```text
+Total artifacts
+Total categories
+Total tags
+Total historical events
+Total users
+```
+
+Also show quick links:
+
+```text
+Manage Artifacts
+Manage Categories
+Manage Tags
+Manage Historical Events
+```
+
+---
+
+# 16. Important Laravel Concepts to Make Visible
+
+Make sure code clearly demonstrates:
+
+## MVC
+
+Models:
+
+```text
+User
+Profile
+Artifact
+Category
+Tag
+HistoricalEvent
+```
+
+Views:
+
+```text
+Blade files
+```
+
+Controllers:
+
+```text
+Resource controllers
+```
+
+## Migrations
+
+All tables must have migration files.
+
+## Eloquent ORM
+
+Use relationships, not raw SQL.
+
+Examples:
+
+```php
+$artifact->category
+$artifact->tags
+$category->artifacts
+$user->profile
+$user->artifacts
+```
+
+## CRUD
+
+Admin resource pages must fully work.
+
+## Blade
+
+Use layouts and Blade directives.
+
+## Auth/Middleware
+
+Admin pages must be protected.
+
+## CSRF
+
+All forms must use `@csrf`.
+
+## Validation
+
+Use `$request->validate()`.
+
+## File Upload
+
+Image upload must work.
+
+---
+
+# 17. README.md
+
+Create a clear README.md with:
+
+```text
+Project name
+Project description
+Features
+Technologies used
+Database relationships
+Installation steps
+Admin login
+User login
+How to run migrations and seeders
+Screenshots placeholder section
+```
+
+Installation steps should include:
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan storage:link
+php artisan serve
+```
+
+---
+
+# 18. Report Helper File
+
+Create a file named:
+
+```text
+PROJECT_REPORT_NOTES.md
+```
+
+It should explain:
+
+```text
+1. Project overview
+2. MVC architecture in this project
+3. Database tables
+4. Relationships:
+   - One-to-One: User/Profile
+   - One-to-Many: Category/Artifacts and User/Artifacts
+   - Many-to-Many: Artifact/Tags
+5. CRUD functionality
+6. Authentication and middleware
+7. Validation
+8. File uploads
+9. Screenshots to include in report
+10. Conclusion
+```
+
+This file will help me write the final thesis/report.
+
+---
+
+# 19. Code Quality
+
+Use clear and simple Laravel code.
+
+Avoid overengineering.
+
+Do not add unnecessary features.
+
+Do not use external APIs.
+
+Do not use React, Vue, Livewire, Inertia, or complex packages.
+
+Use Laravel Blade server-side rendering.
+
+The project must be easy for a student to explain during exam defense.
+
+---
+
+# 20. Final Acceptance Checklist
+
+Before finishing, make sure:
+
+* `php artisan migrate:fresh --seed` works
+* Login works
+* Logout works
+* Admin can access dashboard
+* Normal user cannot access admin dashboard
+* Artifact CRUD works
+* Category CRUD works
+* Tag CRUD works
+* Historical event CRUD works
+* Profile update works
+* Image upload works
+* Blade layout works
+* Validation errors show
+* Success messages show
+* Relationships work
+* README.md exists
+* PROJECT_REPORT_NOTES.md exists

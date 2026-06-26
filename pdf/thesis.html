@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GeoArchive — Final Project Report</title>
+<style>
+    @page { size: A4; margin: 22mm 20mm 22mm 20mm; }
+    * { box-sizing: border-box; }
+    body { font-family: "Georgia", "Times New Roman", serif; color: #1c1c1c; font-size: 11.5pt; line-height: 1.5; margin: 0; }
+    h1, h2, h3, h4 { font-family: "Segoe UI", Arial, sans-serif; color: #5e1c27; line-height: 1.2; }
+    h1 { font-size: 20pt; }
+    h2 { font-size: 15.5pt; border-bottom: 2px solid #b98932; padding-bottom: 4px; margin-top: 26px; }
+    h3 { font-size: 12.5pt; color: #244f3d; margin-top: 18px; }
+    h4 { font-size: 11pt; color: #333; margin: 12px 0 4px; }
+    p { margin: 7px 0; text-align: justify; }
+    code, .mono { font-family: "Consolas", "Courier New", monospace; font-size: 9.7pt; background: #f3efe6; padding: 1px 4px; border-radius: 3px; }
+    pre { font-family: "Consolas", "Courier New", monospace; font-size: 9.3pt; background: #f6f3ec; border: 1px solid #e0d8c7;
+          border-left: 3px solid #b98932; border-radius: 4px; padding: 9px 12px; overflow-x: auto; line-height: 1.4; white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10pt; }
+    th, td { border: 1px solid #d8cfbd; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #5e1c27; color: #fff; font-family: "Segoe UI", Arial, sans-serif; font-weight: 600; }
+    tr:nth-child(even) td { background: #faf7f0; }
+    ul, ol { margin: 6px 0 6px 0; padding-left: 22px; }
+    li { margin: 3px 0; }
+    .muted { color: #6b6257; }
+    .tag { display: inline-block; background: #244f3d; color: #fff; font-family: "Segoe UI", sans-serif; font-size: 8.5pt;
+           padding: 1px 8px; border-radius: 999px; margin: 1px; }
+    .page-break { page-break-before: always; }
+    .avoid-break { page-break-inside: avoid; }
+
+    /* Title page */
+    .cover { height: 252mm; display: flex; flex-direction: column; justify-content: center; text-align: center; page-break-after: always; }
+    .cover .uni { font-family: "Segoe UI", Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; color: #244f3d; font-size: 12pt; }
+    .cover .rule { width: 70px; height: 4px; background: #b98932; margin: 18px auto; }
+    .cover .title { font-family: "Segoe UI", Arial, sans-serif; font-size: 40pt; color: #5e1c27; margin: 6px 0; letter-spacing: 1px; }
+    .cover .subtitle { font-size: 14pt; color: #333; margin-bottom: 40px; font-style: italic; }
+    .cover .meta { font-family: "Segoe UI", Arial, sans-serif; font-size: 11.5pt; color: #222; line-height: 1.9; }
+    .cover .meta b { color: #5e1c27; }
+    .fill { color: #9a8f7d; }
+
+    .toc li { margin: 5px 0; }
+    .toc .num { display: inline-block; width: 26px; color: #b98932; font-family: "Segoe UI", sans-serif; }
+    .lead { font-size: 12pt; }
+    figure { margin: 14px 0; text-align: center; }
+    figcaption { font-size: 9pt; color: #6b6257; margin-top: 5px; font-style: italic; }
+    .erd { width: 100%; border: 1px solid #e0d8c7; border-radius: 6px; background: #fcfaf4; }
+</style>
+</head>
+<body>
+
+<!-- ===================== COVER ===================== -->
+<section class="cover">
+    <div class="uni">Kutaisi International University</div>
+    <div class="rule"></div>
+    <div class="muted" style="font-family:'Segoe UI',sans-serif;">Final Project Report</div>
+    <div class="title">GeoArchive</div>
+    <div class="subtitle">A Laravel Archive of Georgian History &mdash; Artifacts, Monuments &amp; Events</div>
+    <div class="meta">
+        <div><b>Student:</b> <span class="fill">[Your full name]</span></div>
+        <div><b>Student ID:</b> <span class="fill">[Your ID]</span></div>
+        <div><b>Course:</b> Web Development with PHP &amp; Laravel</div>
+        <div><b>Project type:</b> Final Project (CRUD web application)</div>
+        <div><b>Presentation:</b> 27 June 2026, Auditorium 1_028</div>
+        <div><b>Academic year:</b> 2025&ndash;2026</div>
+    </div>
+</section>
+
+<!-- ===================== TOC ===================== -->
+<section>
+<h1>Table of Contents</h1>
+<ul class="toc" style="list-style:none; padding-left:0;">
+    <li><span class="num">1</span> Abstract</li>
+    <li><span class="num">2</span> Introduction</li>
+    <li><span class="num">3</span> Technologies Used</li>
+    <li><span class="num">4</span> System Architecture (MVC)</li>
+    <li><span class="num">5</span> Database Design &amp; Eloquent Relationships</li>
+    <li><span class="num">6</span> CRUD Operations</li>
+    <li><span class="num">7</span> Blade Templating &amp; User Interface</li>
+    <li><span class="num">8</span> Security, Validation, Authentication &amp; Middleware</li>
+    <li><span class="num">9</span> File Uploads</li>
+    <li><span class="num">10</span> REST / JSON API</li>
+    <li><span class="num">11</span> Additional Features (History Paths &amp; History Graph)</li>
+    <li><span class="num">12</span> Testing &amp; Quality Assurance</li>
+    <li><span class="num">13</span> Installation &amp; Running the Project</li>
+    <li><span class="num">14</span> Rubric Coverage Mapping</li>
+    <li><span class="num">15</span> Conclusion</li>
+    <li><span class="num">16</span> References</li>
+</ul>
+</section>
+
+<!-- ===================== 1 ABSTRACT ===================== -->
+<section class="page-break">
+<h2>1. Abstract</h2>
+<p class="lead">GeoArchive is a fully functional, server-rendered CRUD web application built with PHP and the Laravel framework. It preserves and presents Georgian historical artifacts, monuments, manuscripts, and events, allowing the public to browse a curated archive while administrators manage all content through protected workflows.</p>
+<p>The project was designed to demonstrate, in one coherent application, the complete set of concepts covered during the course: the Model&ndash;View&ndash;Controller pattern, database migrations, Eloquent ORM relationships (one&#8209;to&#8209;one, one&#8209;to&#8209;many, and two many&#8209;to&#8209;many relationships), full CRUD with CSRF protection, the Blade templating engine, form validation, authentication, middleware-based access control, file uploads, and a basic JSON API exposed through resource controllers. The interface is written in plain HTML and CSS, using no external front-end framework, so the work that is graded relies strictly on the requested PHP/Laravel technologies.</p>
+</section>
+
+<!-- ===================== 2 INTRODUCTION ===================== -->
+<section>
+<h2>2. Introduction</h2>
+<p>The goal of this project is to build a complete database-driven web application that exercises the practical, architectural, and functional areas of Laravel. The chosen theme is a <b>historical archive of Georgia</b>: a catalogue of artifacts (objects, monuments, manuscripts) and a chronological collection of historical events, linked together so that visitors can follow how objects relate to the moments in history they belong to.</p>
+<p>The application has three audiences:</p>
+<ul>
+    <li><b>Visitors</b> browse the public archive: artifacts with search, category and tag filters, sortable chronological events, category and tag pages, and connected-history views.</li>
+    <li><b>Registered users</b> manage their own profile, including a biography and an avatar upload.</li>
+    <li><b>Administrators</b> use a protected dashboard and full content-management tools for artifacts, categories, tags, and events.</li>
+</ul>
+<p>Every record is seeded with genuine, reference-checked historical content and a locally stored, individually sourced image, so the application is meaningful to demonstrate rather than filled with placeholder text.</p>
+</section>
+
+<!-- ===================== 3 TECHNOLOGIES ===================== -->
+<section>
+<h2>3. Technologies Used</h2>
+<table class="avoid-break">
+    <tr><th style="width:34%">Area</th><th>Technology</th></tr>
+    <tr><td>Language</td><td>PHP 8.2+ (developed and tested on PHP 8.4)</td></tr>
+    <tr><td>Framework</td><td>Laravel 12</td></tr>
+    <tr><td>ORM</td><td>Eloquent</td></tr>
+    <tr><td>Templating</td><td>Blade (server-side rendering)</td></tr>
+    <tr><td>Database</td><td>SQLite by default; MySQL supported through <code>.env</code></td></tr>
+    <tr><td>Front-end</td><td>Plain HTML and CSS (<code>public/css/app.css</code>) &mdash; no React, Vue, Tailwind, Bootstrap, or Livewire</td></tr>
+    <tr><td>Testing</td><td>PHPUnit through Laravel's test runner</td></tr>
+    <tr><td>Authentication</td><td>Custom session-based authentication (no external package)</td></tr>
+</table>
+<p>The application requires no Node.js build step, because the final stylesheet is served directly from <code>public/css/app.css</code>, and it makes no external API calls at runtime.</p>
+</section>
+
+<!-- ===================== 4 MVC ===================== -->
+<section class="page-break">
+<h2>4. System Architecture (MVC)</h2>
+<p>GeoArchive follows the Model&ndash;View&ndash;Controller pattern strictly, and adds a thin service layer to keep controllers small and to centralize write operations.</p>
+<table class="avoid-break">
+    <tr><th style="width:24%">Layer</th><th>Responsibility</th><th>Examples</th></tr>
+    <tr><td><b>Model</b></td><td>Eloquent models hold relationships, casts, and reusable query scopes.</td><td><code>Artifact</code>, <code>HistoricalEvent</code>, <code>Category</code>, <code>Tag</code>, <code>User</code>, <code>Profile</code></td></tr>
+    <tr><td><b>View</b></td><td>Blade templates render HTML using a shared layout, partials, and components.</td><td><code>layouts/app.blade.php</code>, <code>artifacts/_card.blade.php</code>, <code>components/long-form.blade.php</code></td></tr>
+    <tr><td><b>Controller</b></td><td>Public and admin controllers handle requests and delegate work; they contain no SQL.</td><td><code>PublicArchive\ArtifactController</code>, <code>Admin\ArtifactController</code></td></tr>
+    <tr><td><b>Service</b></td><td>Manager classes perform transactional writes and image lifecycle handling.</td><td><code>ArtifactManager</code>, <code>PublicImageStorage</code></td></tr>
+    <tr><td><b>Request</b></td><td>Form Request classes authorize and validate input away from the controller.</td><td><code>ArtifactRequest</code>, <code>RegisterRequest</code></td></tr>
+    <tr><td><b>Policy</b></td><td>Per-model authorization rules.</td><td><code>ArtifactPolicy</code>, <code>CategoryPolicy</code></td></tr>
+</table>
+<p>A typical write request flows as follows:</p>
+<pre>Request  &rarr;  Route (web.php)  &rarr;  Middleware (auth, admin)
+        &rarr;  Controller  &rarr;  Form Request (validate + authorize)
+        &rarr;  Service / Manager  (DB transaction + file storage)
+        &rarr;  Eloquent Model  &rarr;  Database
+        &rarr;  Redirect with flash message  &rarr;  Blade View</pre>
+<p>This separation means each controller action is only a few lines long: it authorizes, calls a manager, and returns a redirect or a view.</p>
+</section>
+
+<!-- ===================== 5 DATABASE ===================== -->
+<section class="page-break">
+<h2>5. Database Design &amp; Eloquent Relationships</h2>
+<p>The schema is defined entirely through Laravel migrations, including foreign keys and two pivot tables. The design covers all three relationship types required by the course.</p>
+
+<figure class="avoid-break">
+<svg class="erd" viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+    <defs><style>.b{fill:#fff;stroke:#5e1c27;stroke-width:1.5;rx:6}.t{fill:#5e1c27;font-weight:bold}.l{stroke:#244f3d;stroke-width:1.5}.lab{fill:#244f3d;font-size:10px}</style></defs>
+    <!-- users -->
+    <rect class="b" x="30" y="20" width="150" height="56" rx="6"/>
+    <text class="t" x="105" y="42" text-anchor="middle">users</text>
+    <text x="105" y="62" text-anchor="middle" font-size="10" fill="#555">id, name, email, role</text>
+    <!-- profiles -->
+    <rect class="b" x="30" y="150" width="150" height="56" rx="6"/>
+    <text class="t" x="105" y="172" text-anchor="middle">profiles</text>
+    <text x="105" y="192" text-anchor="middle" font-size="10" fill="#555">user_id, bio, avatar</text>
+    <!-- categories -->
+    <rect class="b" x="300" y="20" width="160" height="56" rx="6"/>
+    <text class="t" x="380" y="42" text-anchor="middle">categories</text>
+    <text x="380" y="62" text-anchor="middle" font-size="10" fill="#555">id, name, image</text>
+    <!-- artifacts -->
+    <rect class="b" x="300" y="150" width="160" height="70" rx="6"/>
+    <text class="t" x="380" y="174" text-anchor="middle">artifacts</text>
+    <text x="380" y="192" text-anchor="middle" font-size="10" fill="#555">id, title, user_id,</text>
+    <text x="380" y="206" text-anchor="middle" font-size="10" fill="#555">category_id, image</text>
+    <!-- tags -->
+    <rect class="b" x="580" y="20" width="150" height="56" rx="6"/>
+    <text class="t" x="655" y="42" text-anchor="middle">tags</text>
+    <text x="655" y="62" text-anchor="middle" font-size="10" fill="#555">id, name</text>
+    <!-- events -->
+    <rect class="b" x="580" y="150" width="150" height="70" rx="6"/>
+    <text class="t" x="655" y="174" text-anchor="middle">historical_events</text>
+    <text x="655" y="192" text-anchor="middle" font-size="10" fill="#555">id, title,</text>
+    <text x="655" y="206" text-anchor="middle" font-size="10" fill="#555">sort_year</text>
+    <!-- pivots -->
+    <rect class="b" x="300" y="290" width="160" height="46" rx="6" stroke="#b98932"/>
+    <text x="380" y="312" text-anchor="middle" fill="#946b1c" font-weight="bold">artifact_tag</text>
+    <text x="380" y="328" text-anchor="middle" font-size="9" fill="#555">artifact_id, tag_id</text>
+    <rect class="b" x="540" y="290" width="200" height="46" rx="6" stroke="#b98932"/>
+    <text x="640" y="312" text-anchor="middle" fill="#946b1c" font-weight="bold">artifact_historical_event</text>
+    <text x="640" y="328" text-anchor="middle" font-size="9" fill="#555">artifact_id, historical_event_id</text>
+    <!-- lines -->
+    <line class="l" x1="105" y1="76" x2="105" y2="150"/><text class="lab" x="112" y="116">1 : 1</text>
+    <line class="l" x1="180" y1="178" x2="300" y2="180"/><text class="lab" x="205" y="172">1 : N (owner)</text>
+    <line class="l" x1="380" y1="76" x2="380" y2="150"/><text class="lab" x="388" y="116">1 : N</text>
+    <line class="l" x1="460" y1="180" x2="540" y2="305" stroke="#b98932"/>
+    <line class="l" x1="460" y1="185" x2="580" y2="190" stroke="#b98932"/>
+    <line class="l" x1="655" y1="76" x2="655" y2="150"/>
+    <line class="l" x1="380" y1="220" x2="380" y2="290" stroke="#b98932"/>
+</svg>
+<figcaption>Figure 1 &mdash; Entity-relationship overview. Pivot tables (gold) implement the many-to-many relationships.</figcaption>
+</figure>
+
+<h3>5.1 Relationship summary</h3>
+<table class="avoid-break">
+    <tr><th>Type</th><th>Relationship</th><th>Eloquent definition</th></tr>
+    <tr><td><b>One-to-One</b></td><td>A user has one profile</td><td><code>User::profile()</code> &rarr; <code>hasOne(Profile)</code></td></tr>
+    <tr><td><b>One-to-Many</b></td><td>A user owns many artifacts</td><td><code>User::artifacts()</code> &rarr; <code>hasMany(Artifact)</code></td></tr>
+    <tr><td><b>One-to-Many</b></td><td>A category has many artifacts</td><td><code>Category::artifacts()</code> &rarr; <code>hasMany(Artifact)</code></td></tr>
+    <tr><td><b>Many-to-Many</b></td><td>Artifacts &harr; tags</td><td><code>Artifact::tags()</code> &rarr; <code>belongsToMany(Tag)</code></td></tr>
+    <tr><td><b>Many-to-Many</b></td><td>Artifacts &harr; historical events</td><td><code>Artifact::historicalEvents()</code> &rarr; <code>belongsToMany(HistoricalEvent)</code></td></tr>
+</table>
+<p>Foreign keys enforce referential integrity. Deleting a user cascades to that user's profile and artifacts; pivot rows are removed automatically when either side is deleted; and a category that still contains artifacts is protected from deletion both at the database level and with a friendly message in the controller.</p>
+
+<h3>5.2 Migrations</h3>
+<p>Each table, foreign key, and pivot is created by a dedicated migration in <code>database/migrations</code>, and an additional migration strengthens indexes used by search and filtering. The schema can be rebuilt at any time with <code>php artisan migrate:fresh --seed</code>.</p>
+</section>
+
+<!-- ===================== 6 CRUD ===================== -->
+<section class="page-break">
+<h2>6. CRUD Operations</h2>
+<p>Administrators have full Create, Read, Update, and Delete capability over four resources, each registered as a Laravel resource controller:</p>
+<pre>Route::resource('artifacts',  AdminArtifactController::class);
+Route::resource('categories', AdminCategoryController::class)-&gt;except('show');
+Route::resource('events',     AdminHistoricalEventController::class);
+Route::resource('tags',       AdminTagController::class)-&gt;except('show');</pre>
+<p>Every state-changing form includes the <code>@csrf</code> directive, and forms repopulate with <code>old()</code> input after a validation failure so the user never loses their work. Creating or editing an artifact lets the administrator choose a category, attach multiple tags <em>and</em> connect multiple historical events (both many-to-many relationships are managed through the UI), upload an image, and assign an owner.</p>
+<table class="avoid-break">
+    <tr><th>Operation</th><th>Implementation</th></tr>
+    <tr><td>Create</td><td>Resource <code>create</code>/<code>store</code>; validated by a Form Request; persisted in a database transaction by a manager service.</td></tr>
+    <tr><td>Read</td><td>Public index/show pages with pagination, search, category and tag filters, and chronological sorting.</td></tr>
+    <tr><td>Update</td><td>Resource <code>edit</code>/<code>update</code>; old images are deleted from disk when replaced or explicitly removed.</td></tr>
+    <tr><td>Delete</td><td>Resource <code>destroy</code>; associated image files and pivot rows are cleaned up; protected for categories in use.</td></tr>
+</table>
+</section>
+
+<!-- ===================== 7 BLADE ===================== -->
+<section>
+<h2>7. Blade Templating &amp; User Interface</h2>
+<p>The interface is built entirely with the Blade engine and demonstrates the required directives and reuse mechanisms:</p>
+<ul>
+    <li><code>@extends</code> / <code>@section</code> / <code>@yield</code> &mdash; a single master layout (<code>layouts/app.blade.php</code>) provides the navigation, flash messages, and validation-error area for every page.</li>
+    <li><code>@include</code> and partials &mdash; reusable fragments such as <code>artifacts/_card.blade.php</code>, <code>events/_card.blade.php</code>, and shared admin <code>_form.blade.php</code> files.</li>
+    <li><b>Blade components</b> &mdash; <code>&lt;x-long-form&gt;</code> renders the structured long-form historical text.</li>
+    <li><b>Control structures</b> &mdash; <code>@foreach</code>, <code>@if</code>, <code>@isset</code>, <code>@checked</code>, and <code>@selected</code> drive lists, conditional rendering, and form state.</li>
+    <li><b>Data &amp; error display</b> &mdash; validation errors and success messages are shown from the shared layout, and pagination links preserve the active query string.</li>
+</ul>
+</section>
+
+<!-- ===================== 8 SECURITY ===================== -->
+<section class="page-break">
+<h2>8. Security, Validation, Authentication &amp; Middleware</h2>
+<h3>8.1 Authentication</h3>
+<p>A custom, session-based authentication flow handles registration, login, and logout. Registration validates input and forces the regular-user role; login regenerates the session; logout invalidates the session and regenerates the CSRF token. Login and registration validation live in dedicated <code>LoginRequest</code> and <code>RegisterRequest</code> classes.</p>
+<h3>8.2 Middleware &amp; Authorization</h3>
+<p>An <code>AdminMiddleware</code> guards the entire <code>/admin</code> route group: unauthenticated visitors are redirected to the login page, and authenticated non-administrators receive an HTTP <b>403</b> response. In addition, every managed model has a dedicated Policy (<code>ArtifactPolicy</code>, <code>CategoryPolicy</code>, <code>TagPolicy</code>, <code>HistoricalEventPolicy</code>) checked inside the controllers.</p>
+<h3>8.3 Validation &amp; CSRF</h3>
+<p>All input is validated through Form Request classes, which combine an <code>authorize()</code> method with <code>rules()</code>. Titles are unique, descriptions have minimum lengths, and uploaded images are restricted by MIME type, file size, and maximum dimensions. Every form is protected against cross-site request forgery with the <code>@csrf</code> token.</p>
+</section>
+
+<!-- ===================== 9 UPLOADS ===================== -->
+<section>
+<h2>9. File Uploads</h2>
+<p>Artifact, category, event, and avatar images are stored on Laravel's <code>public</code> disk and served through the <code>storage:link</code> symlink. Upload handling is centralized in a <code>PublicImageStorage</code> service whose <code>storeSafely()</code> method is transaction-aware: if the database operation that follows an upload throws an exception, the newly stored file is automatically removed, so the disk never accumulates orphaned images. When an image is replaced or its record deleted, the previous file is removed, and administrators can explicitly clear an existing image without uploading a replacement.</p>
+<table class="avoid-break">
+    <tr><th>Upload</th><th>Storage location</th></tr>
+    <tr><td>Artifact image</td><td><code>storage/app/public/artifacts</code></td></tr>
+    <tr><td>Category image</td><td><code>storage/app/public/categories</code></td></tr>
+    <tr><td>Event image</td><td><code>storage/app/public/events</code></td></tr>
+    <tr><td>Profile avatar</td><td><code>storage/app/public/avatars</code></td></tr>
+</table>
+</section>
+
+<!-- ===================== 10 API ===================== -->
+<section class="page-break">
+<h2>10. REST / JSON API</h2>
+<p>Alongside the server-rendered interface, the application exposes a small read-only JSON API built with core Laravel resource controllers and API Resources. The routes are declared in <code>routes/api.php</code>, automatically prefixed with <code>/api</code> and assigned the stateless, rate-limited <code>api</code> middleware group.</p>
+<table class="avoid-break">
+    <tr><th>Method &amp; Endpoint</th><th>Returns</th></tr>
+    <tr><td><code>GET /api/artifacts</code></td><td>Paginated JSON collection of artifacts (with <code>data</code>, <code>links</code>, <code>meta</code>); supports <code>?q=</code> search and <code>?category=</code> filter.</td></tr>
+    <tr><td><code>GET /api/artifacts/{id}</code></td><td>A single artifact with its category, tags, and connected events.</td></tr>
+    <tr><td><code>GET /api/events</code></td><td>Chronological JSON collection of historical events.</td></tr>
+    <tr><td><code>GET /api/events/{id}</code></td><td>A single event with its connected artifacts.</td></tr>
+</table>
+<p>Responses are shaped by <code>ArtifactResource</code> and <code>HistoricalEventResource</code> (subclasses of <code>JsonResource</code>), which expose the many-to-many relationships as readable arrays. Example response for <code>GET /api/events/1</code>:</p>
+<pre>{
+  "data": {
+    "id": 1,
+    "title": "Colchis in Western Georgia",
+    "date_or_period": "Late Bronze Age–1st century BCE",
+    "sort_year": -1200,
+    "location": "Western Georgia and the eastern Black Sea coast",
+    "connected_artifacts": ["Vani Bronze Figurine", "Vani Colchis Coin"],
+    "links": { "web": ".../events/1", "api": ".../api/events/1" }
+  }
+}</pre>
+<p>Missing records return a proper JSON <code>404</code> response, demonstrating correct API error handling.</p>
+</section>
+
+<!-- ===================== 11 EXTRA ===================== -->
+<section>
+<h2>11. Additional Features</h2>
+<p>Two browsing features make the many-to-many relationships tangible. Both are implemented with the requested technologies only (Blade plus inline SVG and vanilla JavaScript; no external libraries).</p>
+<ul>
+    <li><b>History Paths</b> &mdash; curated, linear journeys that walk the visitor through related artifacts and events as one connected story; every stop links to the full record.</li>
+    <li><b>History Graph</b> &mdash; an interactive, force-directed graph in which every artifact and event is a node, edges follow the chronological timeline and the artifact&ndash;event pivot, and tapping a node opens its detail page. This visually demonstrates the <code>artifact_historical_event</code> many-to-many relationship.</li>
+</ul>
+</section>
+
+<!-- ===================== 12 TESTING ===================== -->
+<section class="page-break">
+<h2>12. Testing &amp; Quality Assurance</h2>
+<p>The project ships with an automated test suite executed through <code>php artisan test</code>. At the time of writing, <b>33 tests pass (607 assertions)</b>, covering both feature and unit levels.</p>
+<ul>
+    <li>Registration, login, role-based redirect, and logout.</li>
+    <li>Regular-user denial (HTTP 403) and administrator access to admin pages.</li>
+    <li>Full CRUD for artifacts, categories, tags, and events, including image upload and relationship syncing.</li>
+    <li>Safe category deletion, duplicate-title rejection, and unsafe-upload rejection.</li>
+    <li>Public pages, search, filtering, and chronological sorting.</li>
+    <li>Repeatable seeding and uniqueness of every seeded image and source record.</li>
+    <li>Transaction-safe storage (orphan-file cleanup) and policy decisions.</li>
+    <li>JSON API collection, single-item, search, and 404 responses.</li>
+</ul>
+</section>
+
+<!-- ===================== 13 INSTALL ===================== -->
+<section>
+<h2>13. Installation &amp; Running the Project</h2>
+<pre>composer install
+cp .env.example .env            # (Windows: Copy-Item .env.example .env)
+php artisan key:generate
+php artisan migrate:fresh --seed
+php artisan storage:link
+php artisan serve               # open http://127.0.0.1:8000</pre>
+<h3>Demonstration accounts</h3>
+<table class="avoid-break">
+    <tr><th>Role</th><th>Email</th><th>Password</th><th>Lands on</th></tr>
+    <tr><td>Administrator</td><td><code>admin@geoarchive.test</code></td><td><code>password</code></td><td><code>/admin/dashboard</code></td></tr>
+    <tr><td>Regular user</td><td><code>user@geoarchive.test</code></td><td><code>password</code></td><td><code>/</code></td></tr>
+</table>
+<p class="muted">These credentials are for local demonstration only.</p>
+</section>
+
+<!-- ===================== 14 RUBRIC ===================== -->
+<section class="page-break">
+<h2>14. Rubric Coverage Mapping</h2>
+<p>The table below maps each grading block to the concrete evidence in the codebase.</p>
+<table>
+    <tr><th style="width:30%">Rubric block (10 pts each)</th><th>Where it is demonstrated</th></tr>
+    <tr><td><b>MVC &amp; Database Management</b></td><td>Public/Admin controllers + service layer + Blade; all migrations with foreign keys and two pivot tables; one-to-one, one-to-many, and two many-to-many Eloquent relationships.</td></tr>
+    <tr><td><b>CRUD Operations</b></td><td>Four resource controllers with full Create/Read/Update/Delete; <code>@csrf</code> on every form; <code>old()</code> repopulation; transactional managers.</td></tr>
+    <tr><td><b>Blade Templating &amp; UI</b></td><td>Master layout with <code>@extends</code>/<code>@section</code>; <code>@include</code> partials; an <code>&lt;x-long-form&gt;</code> component; <code>@foreach</code>/<code>@if</code>; validation-error and flash-message display; query-preserving pagination.</td></tr>
+    <tr><td><b>Security, Validation &amp; Advanced Features</b></td><td>Form Request validation + authorization; custom authentication; <code>AdminMiddleware</code> with 403; per-model policies; transaction-safe file uploads; resource controllers; and a read-only JSON API with API Resources.</td></tr>
+</table>
+</section>
+
+<!-- ===================== 15 CONCLUSION ===================== -->
+<section>
+<h2>15. Conclusion</h2>
+<p>GeoArchive is a complete, runnable Laravel application that demonstrates every concept required by the course within a single, coherent, and meaningful domain. It separates responsibilities cleanly across the MVC layers, manages its schema through migrations, models all three Eloquent relationship types (including two distinct many-to-many relationships), provides full CRUD with CSRF protection and validation, renders its interface entirely through Blade, secures administrative areas with authentication and middleware, handles file uploads safely, and exposes a basic JSON API through resource controllers. Its automated test suite confirms that these behaviours work as intended.</p>
+</section>
+
+<!-- ===================== 16 REFERENCES ===================== -->
+<section>
+<h2>16. References</h2>
+<ul>
+    <li>Laravel 12 Documentation &mdash; <span class="mono">https://laravel.com/docs</span></li>
+    <li>Eloquent ORM, Migrations, Validation, Blade, and Eloquent API Resources (official Laravel guides).</li>
+    <li>Historical content cross-checked against public encyclopaedic summaries (e.g. Colchis, the Kingdom of Iberia, the Battle of Didgori, the Treaty of Georgievsk, the 1991 independence referendum).</li>
+    <li>Seed images are individually sourced from Wikimedia Commons and documented in <code>IMAGE_CREDITS.md</code> / <code>IMAGE_SOURCES.json</code>.</li>
+</ul>
+</section>
+
+</body>
+</html>
